@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @ExtendWith(SpringExtension.class)
 @AutoConfigureMockMvc
 @WebMvcTest(LogDtoTest.TestController.class)//what classes are tested
-@ContextConfiguration(classes = LogDtoTest.TestController.class)// what classes will be in AC
+@ContextConfiguration(classes = LogDtoTest.TestController.class)// what classes will be in AC new coment
 public class LogDtoTest {
 	public static @RestController class TestController{
 		 static LogDto logDtoExp = new LogDto(new Date(), LogType.NO_EXCEPTION, "artifact", 0, "");
@@ -47,6 +47,40 @@ public class LogDtoTest {
 				.andReturn().getResponse().getStatus());
 		
 	}
+	@Test
+	void testPostNoData() throws JsonProcessingException, Exception {
+		LogDto logDtoExp = new LogDto(null, LogType.NO_EXCEPTION, "artifact", 0, "");
+		assertEquals(400, mock.perform(post("/")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(mapper.writeValueAsString(logDtoExp)))
+				.andReturn().getResponse().getStatus());
+		
+	}
+	@Test
+	void testPostNoLogType() throws JsonProcessingException, Exception {
+		LogDto logDtoExp = new LogDto(new Date(), null, "artifact", 0, "");
+		assertEquals(400, mock.perform(post("/")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(mapper.writeValueAsString(logDtoExp)))
+				.andReturn().getResponse().getStatus());
+		
+	}
+	@Test
+	void testPostNoArtifact() throws JsonProcessingException, Exception {
+		LogDto logDtoExp = new LogDto(new Date(), LogType.NO_EXCEPTION, "", 0, "");
+		assertEquals(400, mock.perform(post("/")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(mapper.writeValueAsString(logDtoExp)))
+				.andReturn().getResponse().getStatus());
+		logDtoExp = new LogDto(new Date(), LogType.NO_EXCEPTION, null, 0, "");
+		assertEquals(400, mock.perform(post("/")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(mapper.writeValueAsString(logDtoExp)))
+				.andReturn().getResponse().getStatus());
+		
+	}
+	
+	
 
 	
 	
