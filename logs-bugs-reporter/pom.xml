@@ -45,5 +45,7 @@
 
 	<modules>
 		<module>log-bugs-dto</module>
+		<module>logs-db-populator</module>
+		<module>log-provider</module>
 	</modules>
 </project>
