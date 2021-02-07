@@ -7,6 +7,8 @@ public class Programmer {
 long id;
 	@Column(name ="name", nullable=false)
 	String name;
+//	@Column(name="email", nullable = false, unique = true)
+//	String email;
 	public Programmer() {
 		
 	}
