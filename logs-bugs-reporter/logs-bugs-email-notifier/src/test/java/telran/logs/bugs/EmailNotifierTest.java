@@ -34,7 +34,7 @@ import telran.logs.bugs.dto.LogType;
 public class EmailNotifierTest {
 	private static final String EMAIL ="moshe@gmail.com";
 	@RegisterExtension
-	static GreenMailExtension  greenMail = new GreenMailExtension(ServerSetupTest.SMTP)
+	static GreenMailExtension greenMail = new GreenMailExtension(ServerSetupTest.SMTP)
 	.withConfiguration(GreenMailConfiguration.aConfig().withUser("log", "logs-bugs"));
 	@MockBean
 	EmailProviderClient client;

@@ -53,5 +53,7 @@
 		<module>logs-bug-openning</module>
 		<module>logs-bugs-email-provider</module>
 		<module>logs-bugs-email-notifier</module>
+		<module>logs-bugsassigner-mail-provider</module>
+		<module>logs-bugs-assigner-mail-provider</module>
 	</modules>
 </project>

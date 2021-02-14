@@ -1,13 +1,16 @@
 package telran.logs.bugs.client;
 
-import javax.validation.constraints.NotEmpty;
-
 import org.springframework.stereotype.Component;
 
 @Component
 public class EmailProviderClient {
 	public String getEmailByArtifact(String artifact) {
-		//TODO communication with sync service for email
+		//TODO communication with sync service for email programmer's email
+		return null;
+	}
+
+	public String getAssignerMail() {
+		// TODO communication with sync service for assigner's email
 		return null;
 	}
 
