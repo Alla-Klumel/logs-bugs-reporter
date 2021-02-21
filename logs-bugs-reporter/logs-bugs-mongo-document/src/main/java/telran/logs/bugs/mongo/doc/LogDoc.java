@@ -43,6 +43,10 @@ public class LogDoc {
 	}
 	public LogDoc() {
 	}
+	public void subscribe(Object object) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 

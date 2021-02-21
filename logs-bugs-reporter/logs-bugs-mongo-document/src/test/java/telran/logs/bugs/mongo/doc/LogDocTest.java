@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
+import static org.junit.jupiter.api.Assertions.*;
 import telran.logs.bugs.dto.LogDto;
 import telran.logs.bugs.dto.LogType;
 
@@ -26,18 +26,11 @@ LogsRepo logs;
 void docStoreTest() {
 	LogDto logDto = new LogDto(new Date(), LogType.NO_EXCEPTION, "artifact",
 			20, "result");
-	logs.save(new LogDoc(logDto));
-	LogDoc actualDoc = logs.findAll().get(0) ;
-	assertEquals(logDto, actualDoc.getLogDto());
+
+	logs.save(new LogDoc(logDto)).subscribe();
+	LogDoc actualDoc = logs.findAll().blockFirst();
 	
-}
-@Test
-void docStoreNoData() {
-	LogDto logDto = new LogDto(null, LogType.NO_EXCEPTION, "artifact",
-			20, "result");
-	logs.save(new LogDoc(logDto));
-	LogDoc actualDoc = logs.findAll().get(0) ;
 	assertEquals(logDto, actualDoc.getLogDto());
-	
+ 	
 }
 }
