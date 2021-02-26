@@ -1,4 +1,4 @@
-package telran.logs.bugs;
+package telran.logs.bugs.random;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -23,7 +23,6 @@ public class RandomLogs {
 	int minResponseTime;
 	@Value("${app-max-response-time:200}")
 	int maxResponseTime;
-	
 public LogDto createRandomLog() {
 	LogType logType = getLogType();
 	return new LogDto(new Date(), logType, getArtifact(logType), getResponseTime(logType), "");
@@ -32,7 +31,7 @@ public LogDto createRandomLog() {
 private int getResponseTime(LogType logType) {
 	
 	return logType == LogType.NO_EXCEPTION ?
-		ThreadLocalRandom.current().nextInt(minResponseTime, maxResponseTime):0;
+			ThreadLocalRandom.current().nextInt(minResponseTime, maxResponseTime):0;
 }
 
 private  String getArtifact(LogType logType) {
@@ -62,8 +61,8 @@ private void fillLogTypeArtifactMap(EnumMap<LogType, String> res, LogType lt) {
 	case DUPLICATED_KEY_EXCEPTION:
 		res.put(LogType.DUPLICATED_KEY_EXCEPTION, getRandomClassName());
 		break;
-	case  NO_FOUND_EXCEPTION:
-		res.put(LogType. NO_FOUND_EXCEPTION, getRandomClassName());
+	case  NOT_FOUND_EXCEPTION:
+		res.put(LogType. NOT_FOUND_EXCEPTION, getRandomClassName());
 		break;
 	case NO_EXCEPTION:
 		res.put(LogType. NO_EXCEPTION, getRandomClassName());
@@ -96,7 +95,7 @@ private LogType getExceptionLog() {
 private LogType getNonSecurityExceptionLog() {
 	LogType nonSecExceptions[] = {
 			LogType.BAD_REQUEST_EXCEPTION, LogType.DUPLICATED_KEY_EXCEPTION,
-			LogType.NO_FOUND_EXCEPTION, LogType.SERVER_EXCEPTION
+			LogType.NOT_FOUND_EXCEPTION, LogType.SERVER_EXCEPTION
 	};
 	int ind = ThreadLocalRandom.current().nextInt(0, nonSecExceptions.length);
 	return nonSecExceptions[ind];
@@ -110,5 +109,29 @@ private LogType getSecurityExceptionLog() {
 private int getChance() {
 	
 	return ThreadLocalRandom.current().nextInt(1, 101);
+}
+
+public int getnClasses() {
+	return nClasses;
+}
+
+public int getSecExceptionProb() {
+	return secExceptionProb;
+}
+
+public int getExceptionProb() {
+	return exceptionProb;
+}
+
+public int getAuthenticationProb() {
+	return authenticationProb;
+}
+
+public int getMinResponseTime() {
+	return minResponseTime;
+}
+
+public int getMaxResponseTime() {
+	return maxResponseTime;
 }
 }

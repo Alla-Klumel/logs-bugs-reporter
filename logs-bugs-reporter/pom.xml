@@ -44,18 +44,17 @@
 	</build>
 
 	<modules>
-		<module>log-bugs-dto</module>
+<module>log-bugs-dto</module>
+		<module>logs-bugs-mongo-document</module>
+		<module>logs-provider</module>
 		<module>logs-db-populator</module>
-		<module>log-provider</module>
-		<module>logs-analayzer</module>
+		<module>logs-analyzer</module>
 		<module>logs-bugs-jpa-entities</module>
 		<module>logs-bugs-openning</module>
-		<module>logs-bug-openning</module>
 		<module>logs-bugs-email-provider</module>
 		<module>logs-bugs-email-notifier</module>
-		<module>logs-bugsassigner-mail-provider</module>
 		<module>logs-bugs-assigner-mail-provider</module>
-		<module>logs-bugs-random</module>
 		<module>logs-info-back-office</module>
-	</modules>
+		<module>logs-bugs-random</module>
+			</modules>
 </project>
