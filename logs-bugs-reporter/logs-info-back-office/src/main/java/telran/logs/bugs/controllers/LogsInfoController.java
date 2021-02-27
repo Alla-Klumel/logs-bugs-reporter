@@ -34,4 +34,8 @@ Flux<LogDto> getAllLogs() {
 		return result;
 		
 	}
+	@GetMapping(value="/logs/distributer")
+	Flux<LogTypeCount> getLogTypeOccurrences(){
+		return logsInfo.getLogTypeOccurrences();
+	}
 }

@@ -61,8 +61,8 @@ private void fillLogTypeArtifactMap(EnumMap<LogType, String> res, LogType lt) {
 	case DUPLICATED_KEY_EXCEPTION:
 		res.put(LogType.DUPLICATED_KEY_EXCEPTION, getRandomClassName());
 		break;
-	case  NO_FOUND_EXCEPTION:
-		res.put(LogType. NO_FOUND_EXCEPTION, getRandomClassName());
+	case  NOT_FOUND_EXCEPTION:
+		res.put(LogType. NOT_FOUND_EXCEPTION, getRandomClassName());
 		break;
 	case NO_EXCEPTION:
 		res.put(LogType. NO_EXCEPTION, getRandomClassName());
@@ -95,7 +95,7 @@ private LogType getExceptionLog() {
 private LogType getNonSecurityExceptionLog() {
 	LogType nonSecExceptions[] = {
 			LogType.BAD_REQUEST_EXCEPTION, LogType.DUPLICATED_KEY_EXCEPTION,
-			LogType.NO_FOUND_EXCEPTION, LogType.SERVER_EXCEPTION
+			LogType.NOT_FOUND_EXCEPTION, LogType.SERVER_EXCEPTION
 	};
 	int ind = ThreadLocalRandom.current().nextInt(0, nonSecExceptions.length);
 	return nonSecExceptions[ind];
