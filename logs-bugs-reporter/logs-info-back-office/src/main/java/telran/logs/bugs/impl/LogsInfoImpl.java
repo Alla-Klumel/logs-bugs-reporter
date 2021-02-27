@@ -1,4 +1,3 @@
-  
 package telran.logs.bugs.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ LogRepository logRepository;
 
 	@Override
 	public Flux<LogDto> getAllExceptions() {
-		// TODO Auto-generated method stub
+		
 		return logRepository.findByLogTypeNot(LogType.NO_EXCEPTION);
 	}
 
@@ -36,25 +35,26 @@ LogRepository logRepository;
 
 	@Override
 	public Flux<LogTypeCount> getLogTypeOccurrences() {
-	return logRepository.getLogTypeCounts();
+		
+		return logRepository.getLogTypeCounts();
 	}
 
 	@Override
-	public Flux<LogType> getMostEncounteredExceptions(int nExceptions) {
-		// TODO Auto-generated method stub
-		return null;
+	public Flux<LogType> getMostEncounteredExceptionTypes(int nExceptions) {
+		Flux<LogTypeCount> logTypeCount = logRepository.getMostEncounteredExceptions(nExceptions);
+		return logTypeCount.map(lc -> lc.logType);
 	}
 
 	@Override
 	public Flux<ArtifactCount> getArtifactOccurrences() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return logRepository.getArtifactCounts();
 	}
 
 	@Override
 	public Flux<String> getMostEncounteredArtifacts(int nArtifacts) {
-		// TODO Auto-generated method stub
-		return null;
+		Flux<ArtifactCount> artifactCountFlux = logRepository.getMostEncounteredArtifacts(nArtifacts);
+		return artifactCountFlux.map(ac -> ac.artifact);
 	}
 
 }

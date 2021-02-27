@@ -11,5 +11,6 @@ Flux<LogTypeCount> getLogTypeOccurrences();
 Flux<LogType> getMostEncounteredExceptions(int nExceptions);
 Flux<ArtifactCount> getArtifactOccurrences();
 Flux<String> getMostEncounteredArtifacts(int nArtifacts);
+Flux<LogType> getMostEncounteredExceptionTypes(int nExceptions);
 
 }
