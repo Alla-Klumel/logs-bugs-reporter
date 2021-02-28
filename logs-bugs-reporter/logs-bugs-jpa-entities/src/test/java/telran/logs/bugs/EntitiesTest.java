@@ -11,6 +11,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static org.junit.jupiter.api.Assertions.*;
 
+import telran.logs.bugs.dto.BugStatus;
+import telran.logs.bugs.dto.OpenningMethod;
+import telran.logs.bugs.dto.Seriousness;
 import telran.logs.bugs.jpa.entities.*;
 
 @ExtendWith(SpringExtension.class)
