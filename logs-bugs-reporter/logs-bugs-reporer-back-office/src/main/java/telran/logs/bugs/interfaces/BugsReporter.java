@@ -21,6 +21,8 @@ public interface BugsReporter {
 	List<String> getProgrammersMostBugs(int nProgrammer);
 	List<String> getProgrammersLeastBugs(int nProgrammer);
 	BugResponseDto openAndAssignBug( BugAssignDto bugDto);
+	List<BugResponseDto> getUnClosedBugsMoreDuration(int days);
+	List<EmailBugsCount> getEmailBugsCounts();
 
 }
   
