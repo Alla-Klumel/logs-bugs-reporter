@@ -23,6 +23,8 @@ public interface BugsReporter {
 	BugResponseDto openAndAssignBug( BugAssignDto bugDto);
 	List<BugResponseDto> getUnClosedBugsMoreDuration(int days);
 	List<EmailBugsCount> getEmailBugsCounts();
+	List<SeriousnessBugCount> getSeriousnessBugCounts();
+	List<Seriousness> getSeriousnessTypesWithMostBugs(int nTypes);
 
 }
   
