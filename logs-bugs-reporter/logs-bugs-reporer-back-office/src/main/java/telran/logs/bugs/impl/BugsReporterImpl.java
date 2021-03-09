@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import telran.logs.bugs.dto.*;
+import telran.logs.bugs.exceptions.NotFoundException;
 import telran.logs.bugs.interfaces.BugsReporter;
 import telran.logs.bugs.jpa.entities.*;
 import telran.logs.bugs.jpa.repo.*;
@@ -70,9 +71,10 @@ public BugsReporterImpl(BugRepository bugRepository, ArtifactRepository artifact
 	@Override
 	@Transactional
 	public BugResponseDto openAndAssignBug(BugAssignDto bugDto) {
-		//FIXME exceptions
-		Programmer programmer = programmerRepository.findById(bugDto.programmerId).orElse(null);
-		//TODO exception in the case programmer is null
+ 		Programmer programmer = programmerRepository.findById(bugDto.programmerId).orElse(null);
+		if(programmer==null) {
+			throw new NotFoundException(String.format("assigning can't be done - no programmer with %id", bugDto.programmerId));
+		}
 		LocalDate dateOpen = bugDto.dateOpen != null ? bugDto.dateOpen : LocalDate.now();
 		Bug bug = 
 				new Bug(bugDto.description, dateOpen, null, BugStatus.ASSIGNED,
@@ -161,6 +163,21 @@ public BugsReporterImpl(BugRepository bugRepository, ArtifactRepository artifact
 	public List<Seriousness> getSeriousnessTypesWithMostBugs(int nTypes) {
 		
 		return bugRepository.seriousnessMostBugs(nTypes);
+	}
+	@Override
+	public BugResponseDto openAndAssign(BugAssignDto bugDto) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public List<BugResponseDto> getUnClosedBugMoreDuration(int days) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public List<EmailBugsCount> getEmailBugsCount() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 

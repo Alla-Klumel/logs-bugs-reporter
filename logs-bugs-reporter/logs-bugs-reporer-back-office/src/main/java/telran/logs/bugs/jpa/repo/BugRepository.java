@@ -27,8 +27,8 @@ public interface BugRepository extends JpaRepository<Bug, Long> {
 		+ " p.id group by p.email order by count(b.id) desc limit :n_programmers", nativeQuery=true)
 List<String> programmerMostBugs(@Param("n_programmers")int nProgrammers);
 
-@Query (value ="select p.email from bugs b  right join programmers p on programmer_id ="
-		+ " p.id group by p.email order by count(b.id) desc limit :n_programmers", nativeQuery=true)
+@Query (value ="select p.email from bugs b right join programmers p on b.programmer_id ="
+		+ " p.id group by p.email order by count(b.id)  limit :n_programmers", nativeQuery=true)
 List<String> programmerLeastBugs(@Param("n_programmers")int nProgrammers);
 
 
