@@ -16,13 +16,16 @@ import telran.logs.bugs.exceptions.ServerException;
 public class GlobalExceptionsController {
 	static Logger LOG= LoggerFactory.getLogger(GlobalExceptionsController.class);
 	@ExceptionHandler(ConstraintViolationException.class)
+	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	String constraintVioletionHandler(ConstraintViolationException e) {
 		return processingExceptions(e);
 	}
+
+	
 	@ExceptionHandler(DuplicatedExceptions.class)
 	@ResponseStatus(HttpStatus.CONFLICT)
-	String duplicatetKeyHandler(DuplicatedExceptions e) {
+	String duplicatedKeyHandler(DuplicatedExceptions e) {
 		return processingExceptions(e);
 	}
 	@ExceptionHandler(NotFoundException.class)
@@ -30,12 +33,7 @@ public class GlobalExceptionsController {
 	 String notFoundHandler(NotFoundException e) {
 		 return processingExceptions(e);
 	 }
-	@ExceptionHandler(RuntimeException.class)
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	String serverExceptionHandler(ServerException e) {
-	return processingExceptions(e);
-	}
-
+	
 	private String processingExceptions(Exception e) {
 		 LOG.error("exception class{}, message: {}", e.getClass().getSimpleName(),e.getMessage());
 		return e.getMessage(); 

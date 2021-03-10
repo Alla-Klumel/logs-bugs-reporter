@@ -20,6 +20,8 @@ public class BugsReporterImpl implements BugsReporter {
 
 
 public static final String CLOSING_DESCRIPTION = "\nClosing description:\n";
+private static final String BUG_NOT_FOUND_FORMAT_MESSAGE ="bug with id %d not found";
+private static final String PROGRAMMER_NOT_FOUND_FORMAT_MESSAGE="programmer with id %d not found";
 BugRepository bugRepository;
 ArtifactRepository artifactRepository;
 ProgrammerRepository programmerRepository;
@@ -33,7 +35,9 @@ public BugsReporterImpl(BugRepository bugRepository, ArtifactRepository artifact
 	@Override
 	@Transactional
 	public ProgrammerDto addProgrammer(ProgrammerDto programmerDto) {
-		// FIXME exceptions handling and key duplication check
+		if(programmerRepository.existsById(programmerDto.id)) {
+			throw new DuplicatedException(String.format("programmer with id %d alredy exists", programmerDto.id));
+		}
 		programmerRepository
 		.save(new Programmer(programmerDto.id, programmerDto.name, programmerDto.email));
 		return programmerDto;
@@ -41,8 +45,13 @@ public BugsReporterImpl(BugRepository bugRepository, ArtifactRepository artifact
 
 	@Override
 	public ArtifactDto addArtifact(ArtifactDto artifactDto) {
-		// FIXME exceptions handling 
+		if(artifactRepository.existsById(artifactDto.artifactId)) {
+			throw new Duplicatedexception(String.format("artifact with id %s already exists", artifactDto.artifactId));
+		}
 		Programmer programmer = programmerRepository.findById(artifactDto.programmerId).orElse(null);
+		if(programmer == null) {
+			throw new NotFoundException(String.format(BUG_NOT_FOUND_FORMAT_MESSAGE, artifactDto.programmerId));
+		}
 		artifactRepository.save(new Artifact(artifactDto.artifactId,programmer ));
 		return artifactDto;
 	}
@@ -50,8 +59,7 @@ public BugsReporterImpl(BugRepository bugRepository, ArtifactRepository artifact
 	@Override
 	@Transactional
 	public BugResponseDto openBug(BugDto bugDto) {
-		//FIXME exceptions
-		LocalDate dateOpen = bugDto.dateOpen != null ? bugDto.dateOpen : LocalDate.now();
+ 		LocalDate dateOpen = bugDto.dateOpen != null ? bugDto.dateOpen : LocalDate.now();
 		Bug bug = new Bug
 				(bugDto.description, dateOpen, null, BugStatus.OPENNED,
 						bugDto.seriousness,OpenningMethod.MANUAL, null);
@@ -86,12 +94,18 @@ public BugsReporterImpl(BugRepository bugRepository, ArtifactRepository artifact
 	@Override
 	@Transactional
 	public void assignBug(AssignBugData assignData) {
-		//FIXME exceptions
-		Bug bug = bugRepository.findById(assignData.bugId).orElse(null);
+ 		Bug bug = bugRepository.findById(assignData.bugId).orElse(null);
+ 		if(bug==null) {
+ 			throw new NotFoundException(String.format(BUG_NOT_FOUND_FORMAT_MESSAGE, assignData.bugId));
+ 			
+ 		}
 		bug.setDescription(bug.getDescription() + BugsReporter.ASSIGNMENT_DESCRIPTION_TITLE +
 		assignData.description);
 		Programmer programmer = programmerRepository.findById(assignData.programmerId)
 				.orElse(null);
+		if(programmer == null) {
+			throw new NotFoundException(String.format(BUG_NOT_FOUND_FORMAT_MESSAGE, assignData.programmerId))
+		}
 		bug.setStatus(BugStatus.ASSIGNED);
 		bug.setProgrammer(programmer);
 
@@ -109,6 +123,9 @@ public BugsReporterImpl(BugRepository bugRepository, ArtifactRepository artifact
 	public void closeBug(CloseBugData closeData) {
 		//FIXME exceptions
 		Bug bug = bugRepository.findById(closeData.bugId).orElse(null);
+		if (bug==null) {
+			throw new NotFoundException(String.format(BUG_NOT_FOUND_FORMAT_MESSAGE, closeData.bugId));
+		}
 		LocalDate dateClose = closeData.dateClose == null ? LocalDate.now() : closeData.dateClose;
 		bug.setStatus(BugStatus.CLOSED);
 		bug.setDateClose(dateClose);
