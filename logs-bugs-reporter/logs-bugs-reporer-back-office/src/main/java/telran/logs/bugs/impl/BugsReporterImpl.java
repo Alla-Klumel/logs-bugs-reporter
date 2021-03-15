@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import telran.logs.bugs.dto.*;
+import telran.logs.bugs.exceptions.DuplicatedException;
 import telran.logs.bugs.exceptions.NotFoundException;
 import telran.logs.bugs.interfaces.BugsReporter;
 import telran.logs.bugs.jpa.entities.*;
@@ -46,7 +47,7 @@ public BugsReporterImpl(BugRepository bugRepository, ArtifactRepository artifact
 	@Override
 	public ArtifactDto addArtifact(ArtifactDto artifactDto) {
 		if(artifactRepository.existsById(artifactDto.artifactId)) {
-			throw new Duplicatedexception(String.format("artifact with id %s already exists", artifactDto.artifactId));
+			throw new DuplicatedException(String.format("artifact with id %s already exists", artifactDto.artifactId));
 		}
 		Programmer programmer = programmerRepository.findById(artifactDto.programmerId).orElse(null);
 		if(programmer == null) {
