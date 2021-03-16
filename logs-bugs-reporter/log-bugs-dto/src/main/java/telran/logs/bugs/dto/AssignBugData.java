@@ -3,7 +3,6 @@ package telran.logs.bugs.dto;
 import javax.validation.constraints.Min;
 
 public class AssignBugData {
-	
 	public AssignBugData(@Min(1) long bugId, @Min(1) long programmerId, String description) {
 		super();
 		this.bugId = bugId;
@@ -14,7 +13,5 @@ public class AssignBugData {
 public long bugId;
 	@Min(1)
 public long programmerId;
- public String description;
-
-
+public 	String description;
 }

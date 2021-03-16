@@ -5,10 +5,14 @@ import java.util.Date;
 import javax.validation.constraints.*;
 
 public class LogDto {
-	@Override
-	public String toString() {
-		return "LogDto [dateTime=" + dateTime + ", logType=" + logType + ", artifact=" + artifact + ", responseTime="
-				+ responseTime + ", result=" + result + "]";
+	public LogDto(@NotNull Date dateTime, @NotNull LogType logType, @NotEmpty String artifact, int responseTime,
+			String result) {
+		super();
+		this.dateTime = dateTime;
+		this.logType = logType;
+		this.artifact = artifact;
+		this.responseTime = responseTime;
+		this.result = result;
 	}
 	@NotNull
 	public Date dateTime;
@@ -59,14 +63,10 @@ public class LogDto {
 			return false;
 		return true;
 	}
-	public LogDto(@NotNull Date dateTime, @NotNull LogType logType, @NotEmpty String artifact, int responseTime,
-			String result) {
-		super();
-		this.dateTime = dateTime;
-		this.logType = logType;
-		this.artifact = artifact;
-		this.responseTime = responseTime;
-		this.result = result;
+	@Override
+	public String toString() {
+		return "LogDto [dateTime=" + dateTime + ", logType=" + logType + ", artifact=" + artifact + ", responseTime="
+				+ responseTime + ", result=" + result + "]";
 	}
 	
 	

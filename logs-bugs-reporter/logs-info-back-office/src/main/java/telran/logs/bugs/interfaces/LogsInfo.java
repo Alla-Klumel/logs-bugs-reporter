@@ -8,9 +8,8 @@ Flux<LogDto> getAllLogs();
 Flux<LogDto> getAllExceptions();
 Flux<LogDto> getLogsType(LogType logType);
 Flux<LogTypeCount> getLogTypeOccurrences();
-Flux<LogType> getMostEncounteredExceptions(int nExceptions);
+Flux<LogType> getMostEncounteredExceptionTypes(int nExceptions);
 Flux<ArtifactCount> getArtifactOccurrences();
 Flux<String> getMostEncounteredArtifacts(int nArtifacts);
-Flux<LogType> getMostEncounteredExceptionTypes(int nExceptions);
 
 }

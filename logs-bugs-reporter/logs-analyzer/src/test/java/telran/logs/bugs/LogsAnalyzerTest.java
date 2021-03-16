@@ -1,7 +1,10 @@
 package telran.logs.bugs;
 
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.IOException;
 import java.util.*;
 
@@ -34,9 +37,8 @@ OutputDestination consumer;
 	String bindingNameExceptions;
 	@Value("${app-binding-name-exceptions:logs-out-0}")
 	String bindingNameLogs;
-	@Value("${app-logs-provider-artifact:logs-provide}")
+	@Value("${app-logs-provider-artifact:logs-provider}")
 	String logsProviderArtifact;
-	
 	@Test
 	void analyzerTestNonException() {
 		/* logDto is valid and no exception */
@@ -46,33 +48,53 @@ OutputDestination consumer;
 		assertNull(consumer.receive(0, bindingNameExceptions));
 	}
 	@Test
-	void analyzerTestException() throws JsonParseException, JsonMappingException,IOException {
+	void analyzerTestException() throws JsonParseException, JsonMappingException, IOException {
+		/* logDto is valid and exception */
 		LogDto logDto = new LogDto(new Date(), LogType.AUTHENTICATION_EXCEPTION, "artifact", 0, "result");
-sendLog(logDto)	;	
-Message<byte[]> message = consumer.receive(0, bindingNameExceptions);
+		sendLog(logDto);
+		Message<byte[]> message = consumer.receive(0, bindingNameExceptions);
 		assertNotNull(message);
 		message = consumer.receive(0, bindingNameLogs);
 		assertNotNull(message);
 		LOG.debug("receved in consumer {}", new String(message.getPayload()));
 		
 	}
-	
 	@Test
 	void analyserTestNoDate() {
-		/*logDto is invalid, no date */
-		LogDto logDto= new LogDto(null, LogType.NO_EXCEPTION,"artifact", 0, "");
+		/* logDTo is invalid, no date */
+		LogDto logDto = new LogDto(null, LogType.NO_EXCEPTION, "artifact", 0, "");
 		sendLog(logDto);
 		testWrongLogDto();
+	}
+
+	private void testWrongLogDto() {
+		Message<byte[]> message = consumer.receive(0, bindingNameExceptions);
+		assertNotNull(consumer.receive(0,bindingNameLogs));
+		String messageStr = new String(message.getPayload());
+		assertTrue(messageStr.contains(LogType.BAD_REQUEST_EXCEPTION.toString()));
+		assertTrue(messageStr.contains(logsProviderArtifact));
+		
+		
+		
 		
 	}
-	private void testWrongLogDto() {
-Message<byte[]>message = consumer.receive(0,bindingNameExceptions);
-assertNotNull(consumer.receive(0, bindingNameLogs));
-String messageStr = new String(message.getPayload());
-assertTrue(messageStr.contains(LogType.BAD_REQUEST_EXCEPTION.toString()));
-assertTrue(messageStr.contains(logsProviderArtifact));
+
+	@Test
+	void analyserTestNoLogType() {
+		LogDto logDto = new LogDto(new Date(), null, "artifact", 0, "");
+		sendLog(logDto);
+		testWrongLogDto();
 	}
-	private void sendLog(LogDto logDto) {
-producer.send(new GenericMessage<LogDto>(logDto));		
+
+	@Test
+	void analyserTestNoArtifact() {
+		LogDto logDto = new LogDto(new Date(), LogType.NO_EXCEPTION, "", 0, "");
+		sendLog(logDto);
+		testWrongLogDto();
 	}
+private void sendLog(LogDto logDto) {
+		
+		producer.send(new GenericMessage<LogDto>(logDto));
+	}
+
 }

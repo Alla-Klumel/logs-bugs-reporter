@@ -1,3 +1,4 @@
+  
 package telran.logs.bugs.dto;
 
 import java.time.LocalDate;
@@ -12,8 +13,7 @@ public class CloseBugData {
 		this.description = description;
 	}
 	@Min(1)
-	public long bugId;
-	public LocalDate dateClose;
-	public String description;
-
+public long bugId;
+public LocalDate dateClose;
+public String description;
 }
